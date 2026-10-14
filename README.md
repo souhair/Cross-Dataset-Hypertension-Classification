@@ -357,7 +357,6 @@ out_v2/
         ├── fig1_confusion_aurora.png
         ├── fig2_per_class_aurora.png
         ├── fig3_roc_aurora.png
-        ├── fig4_pipeline_diagram.png
         ├── fig5_shap_top25.png
         ├── fig6_feature_family_shap.png
         ├── fig7_per_class_shap.png
@@ -365,11 +364,10 @@ out_v2/
         ├── fig9_per_class_roc_nn.png
         ├── fig9_calibration.png
         ├── fig10_decision_curve.png
-        ├── fig11_ablation_delta.png
         ├── fig12_transfer_heatmap.png
         └── fig13_fraction_curves.png
 ```
-
+The out2 file of the project: https://drive.google.com/drive/folders/1LGbCB3e6CmVCc6V-DRj_teWX39F7QbUc?usp=drive_link
 ---
 
 ## Reproducibility notes
