@@ -236,7 +236,6 @@ Expected final counts:
 | PulseDB-Vital | 7,673 | 250 | 0 |
 | SWCS / DS4 | 2,554 | 115 | 0 |
 
-If extraction stops partway through, see [Troubleshooting](#troubleshooting) before deleting or changing output files.
 
 ### Phase 2: Analysis
 
