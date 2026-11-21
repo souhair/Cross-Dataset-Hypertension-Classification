@@ -1,9 +1,3 @@
-# audits/fraction_multiseed.py
-"""
-Multi-seed fraction sweep.
-This script repeats the fraction sweep over 5
-subject-grouped splits, reports mean ± 95% CI for each fraction.
-"""
 import os
 import numpy as np
 import pandas as pd
@@ -126,9 +120,12 @@ def main():
         delta_std=("delta", "std"),
     ).reset_index()
 
-    summary["delta_ci_lo"] = summary["delta_mean"] - 1.96 * summary["delta_std"] / np.sqrt(summary["n_seeds"])
-    summary["delta_ci_hi"] = summary["delta_mean"] + 1.96 * summary["delta_std"] / np.sqrt(summary["n_seeds"])
-
+    # summary["delta_ci_lo"] = summary["delta_mean"] - 1.96 * summary["delta_std"] / np.sqrt(summary["n_seeds"])
+    # summary["delta_ci_hi"] = summary["delta_mean"] + 1.96 * summary["delta_std"] / np.sqrt(summary["n_seeds"])
+    # Use t-distribution critical value for df=4 (5 seeds)
+    t_crit = 2.776
+    summary["delta_ci_lo"] = summary["delta_mean"] - t_crit * summary["delta_std"] / np.sqrt(summary["n_seeds"])
+    summary["delta_ci_hi"] = summary["delta_mean"] + t_crit * summary["delta_std"] / np.sqrt(summary["n_seeds"])
     summary.to_csv(os.path.join(RESULTS, "v2_fraction_multiseed_summary.csv"), index=False)
 
     print("\n" + "=" * 72)
