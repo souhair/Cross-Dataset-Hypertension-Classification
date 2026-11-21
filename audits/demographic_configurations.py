@@ -49,7 +49,6 @@ PPG_ONLY_EXCLUSIONS = {
     "stiffness_index",
 }
 
-
 def cv_three_way(df, features, y, g, label):
     sgkf = StratifiedGroupKFold(n_splits=N_FOLDS, shuffle=True,
                                  random_state=SEED)
@@ -90,7 +89,8 @@ def main():
     demo_feats = [c for c in CANDIDATE if c in DEMO_FEATURES]
     ppg_feats  = [c for c in CANDIDATE if c not in PPG_ONLY_EXCLUSIONS]
     full_feats = list(CANDIDATE)
-
+    # Added by me:
+    combined_420_feats = list(set(ppg_feats + demo_feats))
     print(f"Feature counts: demo={len(demo_feats)}, ppg-only={len(ppg_feats)}, "
           f"combined={len(full_feats)}")
 
@@ -101,7 +101,8 @@ def main():
     g = df_aur.subject_id.astype(str).values
     for cfg, feats in [("demographics only", demo_feats),
                         ("PPG-only", ppg_feats),
-                        ("combined", full_feats)]:
+                       ("combined 420", combined_420_feats),  # <-- Added by me
+                       ("combined 437", full_feats)]: # <-- renamed by me
         print(f"\nAurora-BP — {cfg} ({len(feats)} features)")
         r = cv_three_way(df_aur, feats, y, g, ("Aurora-BP", cfg))
         if r:
@@ -124,7 +125,8 @@ def main():
         g_t = tg.subject_id.astype(str).values
         for cfg, feats in [("demographics only", demo_feats),
                             ("PPG-only", ppg_feats),
-                            ("combined", full_feats)]:
+                           ("combined 420", combined_420_feats),  # <-- Added by me
+                           ("combined 437", full_feats)]:  # <-- renamed by me
             print(f"\n{name} — {cfg} ({len(feats)} features)")
             r = cv_three_way(tg, feats, y_t, g_t, (name, cfg))
             if r:
