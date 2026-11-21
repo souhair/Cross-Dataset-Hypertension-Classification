@@ -40,6 +40,7 @@ from config import SEED, N_FOLDS, NAN_THRESH, CORR_THRESH
 from analysis.v2_utils import load_aurora_raw, RESULTS, OUT_V2
 from fold_preprocessor import FoldAwarePreprocessor
 
+
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 torch.manual_seed(SEED); np.random.seed(SEED)
 H5 = os.path.join(OUT_V2, "aurora_unified_v2_sequences.h5")
@@ -117,6 +118,7 @@ def cv_xgboost_flat(df, CANDIDATE, y, g, label):
     """For the 213-feature reference: use fold-aware preprocessing."""
     sgkf = StratifiedGroupKFold(n_splits=N_FOLDS, shuffle=True, random_state=SEED)
     aucs, f1s, baccs = [], [], []
+    f = 0
     for tr, te in sgkf.split(df[CANDIDATE].values, y, groups=g):
         if len(np.unique(y[tr])) < 3 or len(np.unique(y[te])) < 3:
             continue
@@ -124,6 +126,7 @@ def cv_xgboost_flat(df, CANDIDATE, y, g, label):
             df.iloc[tr], CANDIDATE)
         X_tr = pre.transform(df.iloc[tr])
         X_te = pre.transform(df.iloc[te])
+        print(f"Fold {f}: {X_tr.shape[1]} features")
         sc = StandardScaler().fit(X_tr)
         m = make_xgb()
         m.fit(sc.transform(X_tr), y[tr])
@@ -132,6 +135,7 @@ def cv_xgboost_flat(df, CANDIDATE, y, g, label):
         aucs.append(roc_auc_score(y[te], prob, multi_class="ovr", average="macro"))
         f1s.append(f1_score(y[te], pred, average="macro", zero_division=0))
         baccs.append(balanced_accuracy_score(y[te], pred))
+        f+=1
     return _summarize(label, aucs, f1s, baccs)
 
 
