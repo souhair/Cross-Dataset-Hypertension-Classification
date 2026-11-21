@@ -24,6 +24,7 @@ Outputs:
   out_v2/results/v2_feature_stability_summary.csv
   out_v2/results/figures/fig15_feature_stability.png
 """
+
 import os
 import numpy as np
 import pandas as pd
@@ -47,7 +48,7 @@ COHORTS = [
 META_COLS = {
     "subject_id", "SubjectID", "segment_id", "source_file",
     "sbp", "dbp", "htn3", "htn_bin", "htn",
-    "pulse_rate", "signal_quality", "n_beats", "n_periods", "age",
+    "pulse_rate", "signal_quality",  "n_periods", # "n_beats", "age"
 } | set(LEAK)
 
 
