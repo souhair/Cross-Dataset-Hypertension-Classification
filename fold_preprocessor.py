@@ -4,7 +4,6 @@
 import numpy as np
 import pandas as pd
 
-
 class FoldAwarePreprocessor:
     """
     Fit imputation, correlation filter, and feature selection on a
@@ -49,3 +48,4 @@ class FoldAwarePreprocessor:
         for c in self.feature_list_:
             X[c] = X[c].fillna(self.medians_[c])
         return X.values
+
